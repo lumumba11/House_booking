@@ -16,8 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from admin_dashboard.views import CustomRegisterView 
+from dj_rest_auth.views import LoginView, LogoutView
+from dj_rest_auth.registration.views import RegisterView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
+    path('api/auth/', include('dj_rest_auth.urls')),
+    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
     path('api/', include('admin_dashboard.urls')),
+    path('api/users/', include('users.urls')),
+    path('api/auth/login/', LoginView.as_view(), name='rest_login'),
+    path('api/auth/logout/', LogoutView.as_view(), name='rest_logout'),
+    path('api/auth/registration/', RegisterView.as_view(), name='rest_register'),
+    path('api/auth/registration/', CustomRegisterView.as_view(), name='rest_register' ),
+   
 ]
+
